@@ -1,0 +1,18 @@
+# Material de estudio
+*.pdf
+*.docx
+*.ppt
+
+# Archivos de compilación y binarios de C o Pascal
+*.o
+*.out
+*.exe
+
+# Caché y archivos temporales de Python
+__pycache__/
+*.pyc
+
+# Archivos de simulación (si trabajas con VHDL o similares)
+*.vcd
+*.ghw
+*.cf
