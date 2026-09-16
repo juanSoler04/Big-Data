@@ -1,0 +1,4 @@
+consonante	38742
+digito	152
+otro	17301
+vocal	29528

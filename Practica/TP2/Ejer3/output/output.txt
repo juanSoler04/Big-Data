@@ -1,0 +1,7 @@
+minimo	1
+palabra_minima	!ah!
+maximo	833
+palabra_maxima	de
+promedio	2.757091185988959
+desvio	19.547333290963042
+total	5253

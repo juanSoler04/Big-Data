@@ -1,0 +1,1 @@
+Deberia agregarle un script aparte que contabilice los 20 max, pero no mas MapReduce
