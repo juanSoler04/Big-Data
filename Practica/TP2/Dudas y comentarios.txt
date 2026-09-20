@@ -1,0 +1,7 @@
+- Ejer 4
+En el entorno de Hadoop para archivos de texto plano, cada línea del archivo finalizada con un "Enter" se convierte en un dato o tupla que procesa la función map.
+cada línea leída representa un párrafo completo. No recibes fragmentos de líneas de forma aleatoria, sino que la variable value de tu map contendrá el párrafo entero.
+Job 1 -> Calculo de prom global
+job 2 -> Filtrar los párrafos
+
+-> DUDA : Revisar que tuve que usar pasae de param
