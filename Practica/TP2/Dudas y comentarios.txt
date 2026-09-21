@@ -5,3 +5,9 @@ Job 1 -> Calculo de prom global
 job 2 -> Filtrar los párrafos
 
 -> DUDA : Revisar que tuve que usar pasae de param
+
+
+- Ejer 5
+Para el inciso b mi fmapB puede agarrar lo hecho por el job A1
+
+Reutilice un combiner para el inciso A y el C
