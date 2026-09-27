@@ -20,12 +20,12 @@ outputDir = os.path.join(BASE_DIR, "output")
 tmpDir = os.path.join(BASE_DIR, "tmp")
 
 #----------- ENUNCIADO ---------------- #
-# <id local, id visitante , votante local , votante visitante>
+
 # Implemente una solución MapReduce que devuelva todos los equipos (sin importar si
 # jugaron como locales o como visitantes) que tuvieron más de X (parámetro de la
 # consulta) apuestas como ganador. Esta consulta debe hacerse para los datasets
 # premium y estándar(unión de conjuntos).
-
+# <id local, id visitante , votante local , votante visitante>
 def fmap(key, value, context):
     data = value.split()
     id_local = key
