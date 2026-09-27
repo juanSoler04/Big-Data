@@ -2,15 +2,20 @@ import os
 import sys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-PRACTICA_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
-sys.path.insert(0, PRACTICA_DIR)
+CURRENT_DIR = BASE_DIR
+
+while not os.path.exists(os.path.join(CURRENT_DIR, "emulador_MR.py")):
+    PARENT_DIR = os.path.dirname(CURRENT_DIR)
+    if PARENT_DIR == CURRENT_DIR:
+        raise FileNotFoundError("No se encontro emulador_MR.py en las carpetas superiores")
+    CURRENT_DIR = PARENT_DIR
+
+sys.path.insert(0, CURRENT_DIR)
 
 import emulador_MR
 
 
 inputDir = os.path.join(BASE_DIR, "input")
-
-
 outputDir = os.path.join(BASE_DIR, "output")
 tmpDir = os.path.join(BASE_DIR, "tmp")
 
@@ -61,6 +66,5 @@ if __name__ == "__main__":
 
 
     print("Proceso terminado. Revisa la carpeta output.")
-    ## el result queda en la carpeta tmp, no en output
 
    

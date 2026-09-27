@@ -16,3 +16,9 @@ __pycache__/
 *.vcd
 *.ghw
 *.cf
+
+# Salidas generadas por los ejercicios MapReduce
+**/tmp/
+**/temp/
+**/output/
+**/output_*/
