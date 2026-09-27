@@ -64,6 +64,11 @@ def fredCombinado(key, values, context):
 # No existia un mismo partido (idLocal,idVisitante) el cual cumpla con la premisa de que
 # "el visitante haya ganado en cantidad de apuestas respecto al local", decidimos añadir
 # manualmente la tupla: 100	101	10	200.   
+
+
+#pregunta: será que en cada map solamente se debe rescatar el equipo visitante que ganó
+# y ver si el visitante ganador se repite para ambos datasets? (independientemente de si 
+#es el mismo partido)
 if __name__ == "__main__":
 
     job = emulador_MR.Job(inputSt, outputDir, fmapSt, fredCombinado)
