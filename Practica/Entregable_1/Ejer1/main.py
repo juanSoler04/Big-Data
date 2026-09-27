@@ -1,23 +1,27 @@
 import os
 import sys
-sys.path.append("../..") 
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+PRACTICA_DIR = os.path.abspath(os.path.join(BASE_DIR, "..", ".."))
+sys.path.insert(0, PRACTICA_DIR)
+
 import emulador_MR
 
 
-inputDir = "input"
+inputDir = os.path.join(BASE_DIR, "input")
 
-#inputDir1 = "input1"
-#inputDir2 = "input2"
 
-outputDir = "output"
-tmpDir = "tmp"
+outputDir = os.path.join(BASE_DIR, "output")
+tmpDir = os.path.join(BASE_DIR, "tmp")
 
-# id local - id visitante - votante local - votante visitante 
-
-## JOB 1
+#----------- ENUNCIADO ---------------- #
+# <id local, id visitante , votante local , votante visitante>
+# Implemente una solución MapReduce que devuelva todos los equipos (sin importar si
+# jugaron como locales o como visitantes) que tuvieron más de X (parámetro de la
+# consulta) apuestas como ganador. Esta consulta debe hacerse para los datasets
+# premium y estándar(unión de conjuntos).
 
 def fmap(key, value, context):
-
     data = value.split()
     id_local = key
     id_visitante = data[0]
@@ -34,29 +38,26 @@ def fcom(key, values, context):
     context.write(key, suma)
 
 
-# <id equipo - votos>
+# <id equipo, votos>
 def fred(key, values, context):
-    cantX = context["limite"]
+    cantX = int(context["limite"])
     suma=0
     for v in values:
         suma += v
-
-    context.write(key, suma)
-
-
+    if(cantX < suma):
+        context.write(key, suma)
 
 
 if __name__ == "__main__":
 
     cantX = input("Ingrese el limite: ")
     print(cantX)
+
     
-    job = emulador_MR.Job(inputDir, tmpDir, fmap, fred)
+    job = emulador_MR.Job(inputDir, outputDir, fmap, fred)
     job.setCombiner(fcom)
-    success = job.waitForCompletion()
-
-
     job.setParams({"limite": cantX})
+    success = job.waitForCompletion()
 
 
     print("Proceso terminado. Revisa la carpeta output.")
