@@ -47,6 +47,7 @@ def fmapPl(key, values, context):
     if(votos_visitante > votos_local):
         context.write((id_local,id_visitante), "PL")
 
+#In: <idLocal, idVisitante, votosLocal, votosVisitante, ST/PL>
 def fredCombinado(key, values, context):
     st=0
     pl=0

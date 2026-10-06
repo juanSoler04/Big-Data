@@ -56,7 +56,6 @@ def fred(key, values, context):
 if __name__ == "__main__":
 
     cantX = input("Ingrese el limite: ")
-    print(cantX)
 
     
     job = emulador_MR.Job(inputDir, outputDir, fmap, fred)

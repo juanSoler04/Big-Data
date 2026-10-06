@@ -15,7 +15,7 @@ sys.path.insert(0, CURRENT_DIR)
 import emulador_MR
 
 
-inputSt = os.path.join(BASE_DIR, "inputSt")
+inputPr = os.path.join(BASE_DIR, "inputPr")
 inputPl = os.path.join(BASE_DIR, "inputPl")
 outputDir = os.path.join(BASE_DIR, "output")
 #tmpDir = os.path.join(BASE_DIR, "tmp")
@@ -24,62 +24,52 @@ outputDir = os.path.join(BASE_DIR, "output")
 # Implemente una solución MapReduce que devuelva todos los equipos que jugando
 #como local tuvieron más de X (parámetro de la cosulta) veces más de apuestas que las
 #recibidas por el equipo visitante. Interesa saber los equipos que cumplen esa condición
-#que son elegidos por los usuarios platinium, pero no por los usuarios premium
+#que son elegidos por los usuarios PLATINIUM, pero no por los usuarios PREMIUM
 #(diferencia de conjuntos)
 
 
-
-#In: <idLocal, idVisitante, votosLocal, votosVisitante>
-def fmapSt(key, values, context):
-    data = values.split()
-    id_local = key
-    id_visitante = data[0]
-    votos_local = int(data[1])
-    votos_visitante = int(data[2])
-    if(votos_visitante > votos_local):
-        context.write((id_local,id_visitante), "ST")
-
 #In: <idLocal, idVisitante, votosLocal, votosVisitante>
 def fmapPl(key, values, context):
+    factor = int(context["factor"])
     data = values.split()
     id_local = key
     id_visitante = data[0]
     votos_local = int(data[1])
     votos_visitante = int(data[2])
-    if(votos_visitante > votos_local):
-        context.write((id_local,id_visitante), "PL")
+    if(votos_local > votos_visitante*factor):
+        context.write(id_local, "PL")
 
+#In: <idLocal, idVisitante, votosLocal, votosVisitante>
+def fmapPr(key, values, context):
+    factor = int(context["factor"])
+    data = values.split()
+    id_local = key
+    id_visitante = data[0]
+    votos_local = int(data[1])
+    votos_visitante = int(data[2])
+    if(votos_local > votos_visitante*factor):
+        context.write(id_local, "PR")
+
+#In: <idLocal, PR/PL>
 def fredCombinado(key, values, context):
-    st=0
+    pr=0
     pl=0
     for v in values:
-        if(v=="ST"):
-            st=1
+        if(v=="PR"):
+            pr=1
         elif(v=="PL"):
             pl=1
         #context.write(key, v)
-    if st and pl:
-        equipoL,equipoV = key
-        context.write(equipoV, "")
+    if pl and (not pr) :
+        equipo = key
+        context.write(equipo, "")
+
     
-#OBS de la resolución: Debido a que en los datasets (apuestasEstandar y apuestasPremium),
-# No existia un mismo partido (idLocal,idVisitante) el cual cumpla con la premisa de que
-# "el visitante haya ganado en cantidad de apuestas respecto al local", decidimos añadir
-# manualmente la tupla: 100	101	10	200.   
-
-
-#pregunta: será que en cada map solamente se debe rescatar el equipo visitante que ganó
-# y ver si el visitante ganador se repite para ambos datasets? (independientemente de si 
-#es el mismo partido)
 if __name__ == "__main__":
 
-    cantX = input("Ingrese el limite: ")
-        print(cantX)
-    
-        
-        job = emulador_MR.Job(inputDir, outputDir, fmap, fred)
-        job.setCombiner(fcom)
-        job.setParams({"limite": cantX})
-        success = job.waitForCompletion()
-
-   
+    factor = input("Ingrese el factor X: ")    
+    job = emulador_MR.Job(inputPl, outputDir, fmapPl, fredCombinado)
+    job.addInputPath(inputPr, fmapPr)
+    job.setParams({"factor": factor})
+    success = job.waitForCompletion()
+    print("Proceso terminado. Revisa la carpeta output.")
