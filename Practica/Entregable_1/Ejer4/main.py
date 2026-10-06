@@ -72,7 +72,8 @@ def fredCombinado(key, values, context):
             pl=1
         elif(v=="ST"):
             st=1
-
+    #una tupla unicamente estará en una de las zonas cuando no esté en ninguna otra, 
+    #por ello, la suma debe dar 1.
     if (pl+pr+st ==1 ):
         equipo = key
         context.write(equipo,"")
